@@ -1,0 +1,90 @@
+<html>
+<head>        
+	<link rel="stylesheet" type="text/css" href="./style.css">
+	<script src="./jquery-1.11.0.min.js"></script>
+	<center>
+		<h1>
+			<a href = ./entrance.html><img src= "logo.jpg" height = "100" width = "1000""></a>
+		</h1>
+	</center>
+<style type="text/css">
+#navbar ul { 
+        margin: 0; 
+        padding: 5px; 
+        list-style-type: none; 
+        text-align: center; 
+        background-color: #000; 
+        } 
+ 
+#navbar ul li {  
+        display: inline; 
+        } 
+ 
+#navbar ul li a { 
+        text-decoration: none; 
+        padding: .3em 4em; 
+        color: #fff; 
+        background-color: red; 
+        } 
+ 
+#navbar ul li a:hover { 
+        color: #000; 
+        background-color: #fff; 
+        }  
+</style>
+<script>
+function showLaptops(str)
+{
+if (str=="")
+  {
+  document.getElementById("txtHint").innerHTML="";
+  return;
+  } 
+if (window.XMLHttpRequest)
+  {// code for IE7+, Firefox, Chrome, Opera, Safari
+  xmlhttp=new XMLHttpRequest();
+  }
+else
+  {// code for IE6, IE5
+  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  }
+xmlhttp.onreadystatechange=function()
+  {
+  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    {
+    document.getElementById("txtHint").innerHTML=xmlhttp.responseText;
+    }
+  }
+xmlhttp.open("GET","getlaptops.php?q="+str,true);
+xmlhttp.send();
+}
+</script>
+</head>
+<body>
+<font size="4" face="verdana" color="blue">
+<div id="navbar"> 
+  <ul> 
+        <li><a href="./usersection.html">Home</a></li> 
+        <li><a href="./aboutus.html">About US</a></li> 
+        <li><a href="./contactus.html">Contact Us</a></li> 
+        <li><a href="./dealoftheday.html">Deal of the day</a></li> 
+        <li><a href ="./logout.php">Logout</a></li>  
+  </ul> 
+</div>
+<br>
+<center><b style = "color:black">Available Laptops:</b></center>
+
+<form>
+<select name="users" onchange="showLaptops(this.value)">
+<option value="">Select a Model:</option>
+<option id = "vostro" value="vostro">Vostro</option>
+<option id = "xps" value="xps">XPS</option>
+<option id = "alienware" value="alienware">Alieanware</option>
+<option id = "inspiron" value="inspiron">Inspiron</option>
+</select>
+</form>
+<br>
+<div id="txtHint"><b>Laptop information will be listed here.</b></div>
+
+</body>
+</html>

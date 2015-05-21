@@ -1,0 +1,103 @@
+<html>
+<head>        
+	<link rel="stylesheet" type="text/css" href="./style.css">
+	<center>
+		<h1>
+			<a href = ./entrance.html><img src= "logo.jpg" height = "80" width = "1000""></a>
+		</h1>
+	</center> 
+<style type="text/css">
+#navbar ul { 
+        margin: 0; 
+        padding: 5px; 
+        list-style-type: none; 
+        text-align: center; 
+        background-color: #000; 
+        } 
+ 
+#navbar ul li {  
+        display: inline; 
+        } 
+ 
+#navbar ul li a { 
+        text-decoration: none; 
+        padding: .3em 4em; 
+        color: #fff; 
+        background-color: red; 
+        } 
+ 
+#navbar ul li a:hover { 
+        color: #000; 
+        background-color: #fff; 
+        }  
+</style> 
+</head> 
+<body>
+<font size="4" face="verdana" color="black">
+<div id="navbar"> 
+  <ul> 
+        <li><a href="./entrance.html">Home</a></li> 
+        <li><a href="./aboutus.html">About Us</a></li> 
+        <li><a href="./contactus.html">Contact Us</a></li> 
+        <li><a href="./dealofday.html">Deal of the day</a></li> 
+        <li><a href ="./logout.php">Logout</a></li> 
+  </ul>
+<p style="color:red;">
+You are here: <a href="/entrance.html">
+Home</a> &rsaquo; <strong>My account</strong>
+</p>  
+</div> 
+	
+	<div id="Sign-up" align = "left">
+	<fieldset style="width:30%"><legend>Log-in:</legend>
+		<form enctype="multipart/form-data" action = "signup.php" method = "POST" onsubmit = "return signupForm()">
+			<table>
+				<tr>
+					<td>Username:</td>
+					<td><input type = "text" name = "username" id = "username" autofocus/></td>
+				</tr>
+				<tr>
+					<td>password:</td>
+					<td><input type = "password" name = "password" id = "password"/></td>
+				</tr>
+				<tr>
+					<td><input type = "submit" name = "login" id = "login" value = "Login"/></td>
+					<td><a href = "mailto:sales@notebookreview.com">Forgot Passoword?</a></td>
+				</tr>
+				<tr>
+				<td><a href = "./register.html">Sign Up</a></td>
+				</tr>
+			</table>
+		</form>
+		</div>
+	</fieldset>
+	</body>
+</html>
+<script type="text/javascript">
+function signupForm()
+{
+	
+	var username = document.getElementById("username");
+	var password = document.getElementById("password");
+	
+	
+	if(username.value=="")
+	{
+		//Check for empty field
+		username.focus();
+		alert("Please Enter Username\n");
+		return false;
+	}
+	
+	
+	if(password.value=="")
+	{
+		//Check for empty field
+		password.focus();
+		alert("Please Enter your password\n");
+		return false;
+	}
+	
+	return true;
+}
+</script>

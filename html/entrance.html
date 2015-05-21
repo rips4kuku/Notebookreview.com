@@ -1,0 +1,45 @@
+<html>
+<head>
+<style>
+h1
+{
+font: Georgia, serif;
+color: #996600;
+}
+</style>
+<center>
+	<h1><img src = "logo.jpg" height = "100" width = "1000"></h1>
+	<p id="demo"></p>
+</center>
+<script>
+var myVar=setInterval(function(){myTimer()},1000);
+
+function myTimer()
+{
+var d=new Date();
+var t=d.toLocaleTimeString();
+document.getElementById("demo").innerHTML=t;
+}
+</script>
+</head>
+<hr>
+<br>
+<br>
+<br>
+<br>
+<center>
+<body bgcolor = "white"> 
+<a href="./signup.html">
+  <button name="subject" type="submit" value="HTML">General Users</button></a>
+</form>
+<br>
+<br>
+<br>
+<br>
+<br>
+<a href="./adminloginform.html">
+<button name="subject" type="submit" value="CSS">Administrative Users</button></a>
+</form>
+</body>
+<center>
+</html>

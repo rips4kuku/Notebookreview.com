@@ -1,0 +1,20 @@
+
+body
+{
+/* Give style to Main body part */
+
+	color:black;
+	background: silver;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14px;
+}
+
+p.pos_fixed
+{
+/* Arrangement of paragraph in body part */
+
+	position:fixed;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	
+}

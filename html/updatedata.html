@@ -1,0 +1,235 @@
+<html>
+<head>        
+	<link rel="stylesheet" type="text/css" href="./style.css">
+	<center>
+		<h1>
+			<a href = ./entrance.html><img src= "logo.jpg" height = "80" width = "1000""></a>
+		</h1>
+	</center> 
+<style type="text/css">
+#navbar ul { 
+        margin: 0; 
+        padding: 5px; 
+        list-style-type: none; 
+        text-align: center; 
+        background-color: #000; 
+        } 
+ 
+#navbar ul li {  
+        display: inline; 
+        } 
+ 
+#navbar ul li a { 
+        text-decoration: none; 
+        padding: .3em 4em; 
+        color: #fff; 
+        background-color: red; 
+        } 
+ 
+#navbar ul li a:hover { 
+        color: #000; 
+        background-color: #fff; 
+        }  
+</style> 
+</head> 
+<body>
+<font size="4" face="verdana" color="black">
+<div id="navbar"> 
+  <ul> 
+        <li><a href="./usersection.html">Home</a></li> 
+        <li><a href="./aboutus.html">About Us</a></li> 
+        <li><a href="./contactus.html">Contact Us</a></li> 
+        <li><a href="./dealofday.html">Deal of the day</a></li> 
+        <li><a href ="./logout.php">Logout</a></li> 
+  </ul>
+<p style="color:red;">
+You are here: <a href="/entrance.html">Home</a>&rsaquo; 
+<a href="/adminloginform.html">Admin Login</a>&rsaquo;
+<strong>Add Daily Products</strong>
+</p>  
+	<div id="add" align = "left">
+	<fieldset style="width:20%"><legend>Add products:</legend>
+		<form enctype="multipart/form-data" name="updateForm" action = "updatedata.php"  method = "POST" onsubmit = "return validateProduct()">
+			<table>
+				<tr>
+					<td>Company:</td>
+					<td><input type = "text" name = "company" id = "company" autofocus/></td>
+				</tr>
+				<tr>
+					<td>Model:</td>
+					<td><input type = "text" name = "model" id = "model"/></td>
+				</tr>
+				<tr>
+					<td>Processor:</td>
+					<td><input type = "text" name = "processor" id = "processor"/></td>
+				</tr>
+				<tr>
+					<td>Windows:</td>
+					<td><input type = "text" name = "windows" id = "windows"/></td>
+				</tr>
+				<tr>
+					<td>Hard Disk(GB):</td>
+					<td><input type = "text" name = "harddisk" id = "harddisk"/></td>
+				</tr>
+				<tr>
+					<td>RAM(GB):</td>
+					<td><input type = "text" name = "ram" id = "ram"/></td>
+				</tr>
+				<tr>
+					<td>Price:</td>
+					<td><input type = "text" name = "price" id = "price" placeholder = "$xxxxx"/></td>
+				</tr>
+				<tr>
+					<td><input type = "submit" name = "update" id = "update" value = "update"/></td>
+				</tr>
+			</table>
+			</form>
+			</fieldset>	
+		</div>
+	</body>
+</html>
+<script type="text/javascript">
+function validateProduct()
+{
+	var company = document.getElementById("company");
+	var model = document.getElementById("model");
+	var processor = document.getElementById("processor");
+	var windows = document.getElementById("windows");
+	var hardisk = document.getElementById("harddisk");
+	var ram = document.getElementById("ram");
+	var price = document.getElementById("price");
+		
+	if(company.value=="")
+	{
+		//Check for empty field
+		company.focus();
+		alert("Please Enter company-name\n");
+		return false;
+	}
+	else
+	{	//format specifier
+		var x = /^[a-zA-Z_ ]+$/;
+		//Check for format validation
+		if(!company.value.match(x))
+		{  
+			company.focus();
+			alert("Company name contains only characters and spaces\nPlease Renter Company-name\n");
+			return false;
+		}
+	}
+	
+	if(model.value=="")
+	{
+		//Check for empty field
+		model.focus();
+		alert("Please Enter model-no.\n");
+		return false;
+	}
+	else
+	{	//format specifier
+		var mno = /^[0-9a-zA-Z]+$/;  
+		//Check for format validation
+		if(!model.value.match(mno))
+		{  
+			model.focus();
+			alert("Laptop model-no. must have alphanumeric characters only\n");
+			return false;
+		}
+	}
+	if(processor.value=="")
+	{
+		//Check for empty field
+		processor.focus();
+		alert("Please Enter Processor\n");
+		return false;
+	}
+	else
+	{	//format specifier
+		var proc = /^[a-zA-Z_ ]+$/;
+		//Check for format validation
+		if(!processor.value.match(proc))
+		{  
+			processor.focus();
+			alert("Processor name must be  characters without space\n");
+			return false;
+		}
+	}
+
+	if(windows.value=="")
+	{
+		//Check for empty field
+		windows.focus();
+		alert("Please Enter type of Windows\n");
+		return false;
+	}
+	else
+	{	//format specifier
+		var win = /^[0-9a-zA-Z_ ]+$/;
+		//Check for format validation
+		if(!windows.value.match(win))
+		{  
+			windows.focus();
+			alert("Windows name must must have alphanumeric characters only\n");
+			return false;
+		}
+	}
+
+	if(harddisk.value=="")
+	{
+		//Check for empty field
+		harddisk.focus();
+		alert("Please Enter size of hard-disk\n");
+		return false;
+	}
+	else
+	{	//format specifier
+		var hd = /^[0-9]+$/;  
+		//Check for format validation
+		if(!harddisk.value.match(hd))
+		{  
+			harddisk.focus();
+			alert("hard-disk size must be in numeric form\n");
+			return false;
+		}
+	}
+
+	if(ram.value=="")
+	{
+		//Check for empty field
+		ram.focus();
+		alert("Please Enter size of RAM\n");
+		return false;
+	}
+	else
+	{	//format specifier
+		var r = /^[0-9]+$/; 
+		//Check for format validation
+		if(!ram.value.match(r))
+		{  
+			ram.focus();
+			alert("RAM size must be in numeric form\n");
+			return false;
+		}
+	}
+	
+	if(price.value=="")
+	{
+		//Check for empty field
+		price.focus();
+		alert("Please Enter Price\n");
+		return false;
+	}
+	else
+	{	//format specifier
+		var pattern = /^(\$)\d+(\.\d{1,3})?$/g ;
+		//Check for format validation
+		if(!price.value.match(pattern))
+		{  
+			price.focus();
+			alert("Price of laptop must be numeric characters with $sign only\n");
+			return false;
+		}
+	}
+	return true;
+}
+</script>

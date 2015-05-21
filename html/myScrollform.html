@@ -1,0 +1,466 @@
+<html>
+    <head>
+        <title>My Scrolling Data Form</title>
+        <script src="./jquery-1.11.0.min.js"></script>
+    </head>
+    <body bgcolor="silver">
+    <center><h1>My Scrolling Data Form</h1>
+        <div id="scrollbar">
+            <input type="button" name="up"  id="scrollup" value="Scroll Up">
+            <input type="button" name="up"  id="scrolldown" value="Scroll Down">
+        </div>
+        <div id="mydata" style="height: 200px; overflow-y: scroll">
+            Currently we have no data in the list
+        </div>
+        <hr>
+        <div id="addformdata">
+            <form name="addForm" >
+                To add data to the list, fill in the form below and click on "Add"
+				<table width="page">
+				<tr>
+						<td align="center">Name</td>
+						<td align="center">SSN</td>
+						<td align="center">Data of Birth</td>
+						<td align="center">Monthly Income</td>
+				</tr>
+                <br>
+				<tr>
+					<td><input type="text" id="name" name="namei" value=""></td>
+					<td><input type="text" id="ssn" name="ssni" value="" ></td>
+					<td><input type="text" id="date" name="birthi" value="" ></td>
+					<td><input type="text" id="currency" name="xxxxi" value=""></td>
+					<td><input type="button" name="add" value="Add" onclick="insertToList(); return false;"></td>
+				</tr>
+				</table>
+            </form>
+        </div>
+    </center>
+</body>
+</html>
+
+<script type="text/javascript">
+
+    // Arrays to store values 
+    var name_Array=new Array(); 
+    var ssn_Array=new Array(); 
+    var date_Array=new Array(); 
+    var currency_Array=new Array();
+    var Index = 0;
+    var first = 0;
+    var last = 0;
+    var scrolled = 0;
+    var random_Array=new Array();
+    $(document).ready(function(){
+        fetchdata();
+        $("#scrollup").on("click" ,function(e){
+                  
+                        scrolled=scrolled-25;
+        
+            $("#mydata").animate({
+                scrollTop:  scrolled
+            });
+	e.preventDefault();
+        });
+
+    
+        $("#scrolldown").on("click" ,function(e){
+       
+		scrolled=scrolled+25;
+            $("#mydata").animate({
+                scrollTop:  scrolled
+            });
+	e.preventDefault();
+        });
+    
+    });
+    function deleteRecord(id){
+        if(confirm('Are you Sure you Want to delete this record')){
+            $.ajax({
+                url:"insdel.php",
+                type:'POST',
+                data:  {
+                    "action": "delete",
+                    "id": id
+                },
+                
+                success:function(data){
+                    fetchdata()
+                    console.log('success');
+            
+        
+                }
+            });
+        }
+    }
+    function  fetchdata(){
+        //        var scrolled=0
+        $.ajax({
+            url:"insdel.php",
+            type:'POST',
+            data:  {
+                "action": "fetch"
+            },
+                
+            success:function(data){
+                
+                $("#mydata").html('')
+                $("#mydata").html(data);
+                console.log('success');
+               
+        
+            }
+        });
+    }	
+    function validateForm()
+    {
+        var name = document.getElementById("name");
+        var ssn = document.getElementById("ssn");
+        var date = document.getElementById("date");
+        var currency = document.getElementById("currency");
+        var error = "";
+
+        //Name validation
+        if(name.value=="")
+        {
+            //Check for empty field
+            name.focus();
+            error = "Please Enter Name\n";
+        }
+        else
+        {	//format specifier
+            var letters = /^[a-zA-Z_ ]+$/;
+            //Check for format validation
+            if(!name.value.match(letters))
+            {  
+                name.focus();
+                error = error + "Name contains only characters and spaces\nPlease Renter Name\n";
+            }
+        }
+
+        //Date validation
+        if(date.value=="")
+        {
+            //Check for empty field
+            date.focus();
+            error = error + "Please Enter Date\n";
+        }
+        else
+        {	//format specifier
+            var date_regex = /^((((0[13578])|([13578])|(1[02]))[\/](([1-9])|([0-2][0-9])|(3[01])))|(((0[469])|([469])|(11))[\/](([1-9])|([0-2][0-9])|(30)))|((2|02)[\/](([1-9])|([0-2][0-9]))))[\/]\d{4}$|^\d{4}$/;
+            //check for format validation
+            if(!date.value.match(date_regex))
+            {
+                date.focus();
+                error = error + "Date must be in mm/dd/yyyy format\nPlease Renter Date\n";
+            }
+        }
+
+        //SSN validation
+        if(ssn.value=="")
+        {
+            //check for empty field
+            ssn.focus();
+            error = error + "Please Enter SSN\n";
+        }
+        else
+        {	
+            //format specifier
+            var numbers = /^\d{3}((-?)|\s)\d{2}((-?)|\s)\d{4}$/g;
+            //check format validation
+            if(!ssn.value.match(numbers))
+            { 
+                ssn.focus();
+                error = error + "SSN must be in xxx-xx-xxxx format\nPlease Renter SSN\n";
+            }
+        }
+
+        //Currency validation
+        if(currency.value=="")
+        {
+            //check for empty field
+            currency.focus();
+            error = error + "Please Enter Currency\n";
+        }
+        else
+        {
+            //format specifier
+            var pattern = /^(\$)\d+(\.\d{1,3})?$/g ;
+            //check for format validation
+            if(!currency.value.match(pattern))
+            {
+                currency.focus();
+                error = error + "Currency must be in $xx.xxx format\nPlease Renter Currency\n";	
+            }
+        }
+
+        if(error)
+        {
+            alert(error);
+            return false;
+        }
+        else{
+            var name = document.getElementById("name").value;
+            var ssn = document.getElementById("ssn").value;
+            var date = document.getElementById("date").value;
+            var currency = document.getElementById("currency").value;
+            console.log(name)
+            adduser(name,ssn,date,currency);
+            return true;
+        }
+           
+       
+    }
+
+
+    function insertToList()
+    {	
+        // call a function to validate the fields
+        var valid_function = validateForm();
+        if(valid_function == false)
+        {
+            return false;
+        }
+        else
+        {
+            //get the entered values from fields
+            var name = document.getElementById("name");
+            var ssn = document.getElementById("ssn");
+            var date = document.getElementById("date");
+            var currency = document.getElementById("currency");
+		
+            // push the values in the array
+            name_Array.push(name.value);
+            ssn_Array.push(ssn.value);
+            date_Array.push(date.value);
+            currency_Array.push(currency.value);
+		
+            // generate and push random number in the array to search the record in array and then delete that record.
+            random_Array.push(Math.floor((Math.random()*100)+1));// http://stackoverflow.com/questions/8610635/how-do-you-use-math-random-to-generate-random-ints
+		
+            //function to insert values to list
+            InsertValues();
+		
+            // clear the fields after each add
+            clearFields();
+		
+            alert("Record is successfully added to above list.");
+		
+            // set focus back on the name field
+            name.focus();
+        }
+    }
+
+    function clearFields()
+    {
+        document.getElementById("name").value = "";
+        document.getElementById("ssn").value = "";
+        document.getElementById("date").value = "";
+        document.getElementById("currency").value = "";
+    }
+
+    // function to add to the list
+    function InsertValues()
+    {
+        var temp = 1,temp1 = 1,index = 0,i=0;
+	
+        index = name_Array.length - 5;	
+	
+        for(i=0;i< name_Array.length;i++)
+        {			
+            // when only first 5 entries are added to the list
+            if(name_Array.length>5)
+            {
+                // skip the first values so that only top 5 are shown in the list
+                if(temp>s)
+                {
+                    if(temp1==5)
+                    {
+                        last = i;
+                    }
+                    else if(temp1==1)
+                    {
+					
+                        first = i;
+                        Index = i;
+                    }
+                    if(temp1<=5)
+                    {
+                        //initialise values of fields to the list
+                        var str = "name" + temp1;
+                        document.getElementById(str).value = name_Array[i];
+                        str = "ssn" + temp1;
+                        document.getElementById(str).value = ssn_Array[i];
+                        str = "birth" + temp1;
+                        document.getElementById(str).value = date_Array[i];
+                        str = "xxxx" + temp1;
+                        document.getElementById(str).value = currency_Array[i];
+                        str = "random" + temp1;
+                        document.getElementById(str).value = random_Array[i];
+                    }
+                    temp1++;
+                }
+            }
+            else
+            {
+                var str = "name" + temp;
+                document.getElementById(str).value = name_Array[i];
+                str = "ssn" + temp;
+                document.getElementById(str).value = ssn_Array[i];
+                str = "birth" + temp;
+                document.getElementById(str).value = date_Array[i];
+                str = "xxxx" + temp;
+                document.getElementById(str).value = currency_Array[i];
+                str = "random" + temp;
+                document.getElementById(str).value = random_Array[i];
+            }	
+            temp++;
+        }
+    }
+
+    // Delete a record from the list
+    function delete_a_Record(record)
+    {
+        var remove = 0,i=0,j=1;
+        var name = document.getElementById("name" + record.value);
+        var delRecord = document.getElementById("random" + record.value);
+        if(name.value)
+        {
+            remove = 1;
+        }
+        // check for the existence of record
+        if(remove == 1)
+        {
+            if(confirm("Click on 'OK' to delete the record\n"))
+            {
+                while(i < random_Array.length) 
+                {				
+                    if(delRecord.value==random_Array[i])
+                    {				
+                        // if yes then remove that record from list
+                        name_Array.splice(i, 1);
+                        ssn_Array.splice(i, 1);
+                        date_Array.splice(i, 1);
+                        currency_Array.splice(i, 1);
+                        random_Array.splice(i, 1);
+                    }
+                    i++;
+                }
+			
+                // make entire list empty
+                while(j <= 5) 
+                {	
+                    var str = "name" + j;
+                    document.getElementById(str).value = "";
+                    str = "ssn" + j;
+                    document.getElementById(str).value = "";
+                    str = "birth" + j;
+                    document.getElementById(str).value = "";
+                    str = "xxxx" + j;
+                    document.getElementById(str).value = "";
+                    str = "random" + j;
+                    document.getElementById(str).value = "";
+                    j++;
+                }
+                //call this function again to insert values in the list
+                InsertValues();
+                record.checked = false;	
+            }
+        }
+        else
+        {
+            alert("Nothing to delete in this record.");
+            record.checked = false;
+        }
+    }
+
+
+    // function to perform scrollUp n scrollDown 
+    function handleScrolling(type)
+    {
+        var j,k,temp2 = 1;
+        // perform scroll only when there are more than 5 records in the list
+        if(name_Array.length>5)
+        {	// scroll up
+            if(type==1)
+            {	
+                first--; // decrement the pointer to see upper records
+                if(first>=0)
+                {
+                    for (j = first; j < name_Array.length; j++) // its showing top most record from jth position
+                    {								
+                        var str = "name" + temp2;
+                        document.getElementById(str).value = name_Array[j];
+                        str = "ssn" + temp2;
+                        document.getElementById(str).value = ssn_Array[j];
+                        str = "birth" + temp2;
+                        document.getElementById(str).value = date_Array[j];
+                        str = "xxxx" + temp2;
+                        document.getElementById(str).value = currency_Array[j];
+                        str = "random" + temp2;
+                        document.getElementById(str).value = random_Array[j];
+                        temp2++;
+                    }
+                }
+                else
+                {
+                    alert("Top of the list is reached\n");
+                    first++;// increment the pointer to see lower records
+                }
+            }
+            else // scroll down
+            {
+                // increment the start point to see lower records if any
+                first++;
+                if(first<=Index)
+                {
+                    for (k = first; k < name_Array.length; k++) //its showing bottom most record in the list from kth position
+                    {								
+                        var str = "name" + temp2;
+                        document.getElementById(str).value = name_Array[k];
+                        str = "ssn" + temp2;
+                        document.getElementById(str).value = ssn_Array[k];
+                        str = "birth" + temp2;
+                        document.getElementById(str).value = date_Array[k];
+                        str = "xxxx" + temp2;
+                        document.getElementById(str).value = currency_Array[k];
+                        str = "random" + temp2;
+                        document.getElementById(str).value = random_Array[k];
+                        temp2++;
+                    }
+                }
+                else
+                {
+                    alert("Bottom most record is reached\n");
+                    first--;//decrement the pointer to see upper records if any
+                }
+            }
+        }
+        else
+        {
+            alert("Scrolling strikes for records more than 5\n");
+            return false;
+        }
+    }
+    function adduser(name,ssn,date,currency)
+    {
+        $.ajax({
+            url:"insdel.php",
+            type:'POST',
+            data:  {
+                "name": name,
+                "ssn": ssn,
+                "date": date,
+                "currency": currency,
+                "action": "add"
+            },
+                
+            success:function(data){
+               
+                console.log('success');
+                fetchdata();
+				clearFields();
+        
+            }
+        });
+    }
+</script>

@@ -1,0 +1,407 @@
+<html>
+	<head>
+		<title>My Scrolling Data Form</title>
+	</head>
+	<body bgcolor="silver">
+		<center><h1>My Scrolling Data Form</h1>
+			<form name="myForm">
+				<table width="page">
+					<tr>
+						<td align="center">delete</td>
+						<td align="center">Name</td>
+						<td align="center">SSN</td>
+						<td align="center">Data of Birth</td>
+						<td align="center">Monthly Income</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td><input value="1" type="radio" id="del1" name="del" onclick="delete_a_Record(this);"></td>
+						<td><input readonly type="text" id="name1" name="name"></td>
+						<td><input readonly type="text" id="ssn1" name="ssn"></td>
+						<td><input readonly type="text" id="birth1" name="birth"></td>
+						<td><input readonly type="text" id="xxxx1" name="xxxx"><input type="hidden" name="random1" id="random1"></td>
+						<td><input type="button" name="up" value="Scroll Up" onclick="handleScrolling(1);"></td>
+					</tr>
+					<tr>
+						<td><input value="2" type="radio" id="del2" name="del" onclick="delete_a_Record(this);"></td>
+						<td><input readonly type="text" id="name2" name="name"></td>
+						<td><input readonly type="text" id="ssn2" name="ssn"></td>
+						<td><input readonly type="text" id="birth2" name="birth"></td>
+						<td><input readonly type="text" id="xxxx2" name="xxxx"><input type="hidden" name="random2" id="random2"></td>
+					</tr>
+					<tr>
+						<td><input value="3" type="radio" id="del3" name="del" onclick="delete_a_Record(this);"></td>
+						<td><input readonly type="text" id="name3" name="name"></td>
+						<td><input readonly type="text" id="ssn3" name="ssn"></td>
+						<td><input readonly type="text" id="birth3" name="birth"></td>
+						<td><input readonly type="text" id="xxxx3" name="xxxx"><input type="hidden" name="random3" id="random3"></td>
+					</tr>
+					<tr>
+						<td><input value="4" type="radio" id="del4" name="del" onclick="delete_a_Record(this);"></td>
+						<td><input readonly type="text" id="name4" name="name"></td>
+						<td><input readonly type="text" id="ssn4" name="ssn"></td>
+						<td><input readonly type="text" id="birth4" name="birth"></td>
+						<td><input readonly type="text" id="xxxx4" name="xxxx"><input type="hidden" name="random4" id="random4"></td>
+					</tr>
+					<tr>
+						<td><input value="5" type="radio" id="del5" name="del" onclick="delete_a_Record(this);"></td>
+						<td><input readonly type="text" id="name5" name="name"></td>
+						<td><input readonly type="text" id="ssn5" name="ssn"></td>
+						<td><input readonly type="text" id="birth5" name="birth"></td>
+						<td><input readonly type="text" id="xxxx5" name="xxxx"><input type="hidden" name="random5" id="random5"></td>
+						<td><input type="button" name="up" value="Scroll Down" onclick="handleScrolling(2);"></td>
+					</tr>
+					<tr>
+						<td colspan="5" id="scrollCount" align="center" style="padding-top:10px;">&nbsp;</td>
+					</tr>
+				</table>
+			</form>
+			<hr>
+			<form name="addForm">
+				To add data to the list, fill in the form below and click on "Add"
+				<br>
+				<td><input type="text" id="name" name="namei"></td>
+				<td><input type="text" id="ssn" name="ssni"></td>
+				<td><input type="text" id="date" name="birthi"></td>
+				<td><input type="text" id="currency" name="xxxxi"></td>
+				<input type="button" name="add" value="Add" onclick="insertToList(); return false;">
+			</form>
+	</body>
+</html>
+
+<script>
+
+// Arrays to store values 
+var name_Array=new Array(); 
+var ssn_Array=new Array(); 
+var date_Array=new Array(); 
+var currency_Array=new Array();
+var Index = 0;
+var first = 0;
+var last = 0;
+var random_Array=new Array();
+
+		
+function validateForm()
+{
+	var name = document.getElementById("name");
+	var ssn = document.getElementById("ssn");
+	var date = document.getElementById("date");
+	var currency = document.getElementById("currency");
+	var error = "";
+
+	//Name validation
+	if(name.value=="")
+	{
+		//Check for empty field
+		name.focus();
+		error = "Please Enter Name\n";
+	}
+	else
+	{	//format specifier
+		var letters = /^[a-zA-Z_ ]+$/;
+		//Check for format validation
+		if(!name.value.match(letters))
+		{  
+			name.focus();
+			error = error + "Name contains only characters and spaces\nPlease Renter Name\n";
+		}
+	}
+
+	//Date validation
+	if(date.value=="")
+	{
+		//Check for empty field
+		date.focus();
+		error = error + "Please Enter Date\n";
+	}
+	else
+	{	//format specifier
+		var date_regex = /^((((0[13578])|([13578])|(1[02]))[\/](([1-9])|([0-2][0-9])|(3[01])))|(((0[469])|([469])|(11))[\/](([1-9])|([0-2][0-9])|(30)))|((2|02)[\/](([1-9])|([0-2][0-9]))))[\/]\d{4}$|^\d{4}$/;
+		//check for format validation
+		if(!date.value.match(date_regex))
+		{
+			date.focus();
+			error = error + "Date must be in mm/dd/yyyy format\nPlease Renter Date\n";
+		}
+	}
+
+	//SSN validation
+	if(ssn.value=="")
+	{
+		//check for empty field
+		ssn.focus();
+		error = error + "Please Enter SSN\n";
+	}
+	else
+	{	
+		//format specifier
+		var numbers = /^\d{3}((-?)|\s)\d{2}((-?)|\s)\d{4}$/g;
+		//check format validation
+		if(!ssn.value.match(numbers))
+		{ 
+			ssn.focus();
+			error = error + "SSN must be in xxx-xx-xxxx format\nPlease Renter SSN\n";
+		}
+	}
+
+	//Currency validation
+	if(currency.value=="")
+	{
+		//check for empty field
+		currency.focus();
+		error = error + "Please Enter Currency\n";
+	}
+	else
+	{
+		//format specifier
+		var pattern = /^(\$)\d+(\.\d{1,3})?$/g ;
+		//check for format validation
+		if(!currency.value.match(pattern))
+		{
+			currency.focus();
+			error = error + "Currency must be in $xx.xxx format\nPlease Renter Currency\n";	
+		}
+	}
+
+	if(error)
+	{
+		alert(error);
+		return false;
+	}
+	else
+	{
+		return true;
+	}
+}
+
+function insertToList()
+{	
+	// call a function to validate the fields
+	var valid_function = validateForm();
+	if(valid_function == false)
+	{
+		return false;
+	}
+	else
+	{
+		//get the entered values from fields
+		var name = document.getElementById("name");
+		var ssn = document.getElementById("ssn");
+		var date = document.getElementById("date");
+		var currency = document.getElementById("currency");
+		
+		// push the values in the array
+		name_Array.push(name.value);
+		ssn_Array.push(ssn.value);
+		date_Array.push(date.value);
+		currency_Array.push(currency.value);
+		
+		// generate and push random number in the array to search the record in array and then delete that record.
+		random_Array.push(Math.floor((Math.random()*100)+1));// http://stackoverflow.com/questions/8610635/how-do-you-use-math-random-to-generate-random-ints
+		
+		//function to insert values to list
+		InsertValues();
+		
+		// clear the fields after each add
+		clearFields();
+		
+		alert("Record is successfully added to above list.");
+		
+		// set focus back on the name field
+		name.focus();
+	}
+}
+
+function clearFields()
+{
+	document.getElementById("name").value = "";
+	document.getElementById("ssn").value = "";
+	document.getElementById("date").value = "";
+	document.getElementById("currency").value = "";
+}
+
+// function to add to the list
+function InsertValues()
+{
+	var temp = 1,temp1 = 1,index = 0,i=0;
+	
+	index = name_Array.length - 5;	
+	
+	for(i=0;i< name_Array.length;i++)
+	{			
+		// when only first 5 entries are added to the list
+		if(name_Array.length>5)
+		{
+			// skip the first values so that only top 5 are shown in the list
+			if(temp>index)
+			{
+				if(temp1==5)
+				{
+						last = i;
+				}
+				else if(temp1==1)
+				{
+					
+					first = i;
+					Index = i;
+				}
+				if(temp1<=5)
+				{
+					//initialise values of fields to the list
+					var str = "name" + temp1;
+					document.getElementById(str).value = name_Array[i];
+					str = "ssn" + temp1;
+					document.getElementById(str).value = ssn_Array[i];
+					str = "birth" + temp1;
+					document.getElementById(str).value = date_Array[i];
+					str = "xxxx" + temp1;
+					document.getElementById(str).value = currency_Array[i];
+					str = "random" + temp1;
+					document.getElementById(str).value = random_Array[i];
+				}
+				temp1++;
+			}
+		}
+		else
+		{
+			var str = "name" + temp;
+			document.getElementById(str).value = name_Array[i];
+			str = "ssn" + temp;
+			document.getElementById(str).value = ssn_Array[i];
+			str = "birth" + temp;
+			document.getElementById(str).value = date_Array[i];
+			str = "xxxx" + temp;
+			document.getElementById(str).value = currency_Array[i];
+			str = "random" + temp;
+			document.getElementById(str).value = random_Array[i];
+		}	
+		temp++;
+	}
+}
+
+// Delete a record from the list
+function delete_a_Record(record)
+{
+	var remove = 0,i=0,j=1;
+	var name = document.getElementById("name" + record.value);
+	var delRecord = document.getElementById("random" + record.value);
+	if(name.value)
+	{
+		remove = 1;
+	}
+	// check for the existence of record
+	if(remove == 1)
+	{
+		if(confirm("Click on 'OK' to delete the record\n"))
+		{
+			while(i < random_Array.length) 
+			{				
+				if(delRecord.value==random_Array[i])
+				{				
+					// if yes then remove that record from list
+					name_Array.splice(i, 1);
+					ssn_Array.splice(i, 1);
+					date_Array.splice(i, 1);
+					currency_Array.splice(i, 1);
+					random_Array.splice(i, 1);
+				}
+				i++;
+			}
+			
+			// make entire list empty
+			while(j <= 5) 
+			{	
+				var str = "name" + j;
+				document.getElementById(str).value = "";
+				str = "ssn" + j;
+				document.getElementById(str).value = "";
+				str = "birth" + j;
+				document.getElementById(str).value = "";
+				str = "xxxx" + j;
+				document.getElementById(str).value = "";
+				str = "random" + j;
+				document.getElementById(str).value = "";
+				j++;
+			}
+			//call this function again to insert values in the list
+			InsertValues();
+			record.checked = false;	
+		}
+	}
+	else
+	{
+		alert("Nothing to delete in this record.");
+		record.checked = false;
+	}
+}
+
+
+// function to perform scrollUp n scrollDown 
+function handleScrolling(type)
+{
+	var j,k,temp2 = 1;
+	// perform scroll only when there are more than 5 records in the list
+	if(name_Array.length>5)
+	{	// scroll up
+		if(type==1)
+		{	
+			first--; // decrement the pointer to see upper records
+			if(first>=0)
+			{
+				for (j = first; j < name_Array.length; j++) // its showing top most record from jth position
+				{								
+					var str = "name" + temp2;
+					document.getElementById(str).value = name_Array[j];
+					str = "ssn" + temp2;
+					document.getElementById(str).value = ssn_Array[j];
+					str = "birth" + temp2;
+					document.getElementById(str).value = date_Array[j];
+					str = "xxxx" + temp2;
+					document.getElementById(str).value = currency_Array[j];
+					str = "random" + temp2;
+					document.getElementById(str).value = random_Array[j];
+					temp2++;
+				}
+			}
+			else
+			{
+				alert("Top of the list is reached\n");
+				first++;// increment the pointer to see lower records
+			}
+		}
+		else // scroll down
+		{
+			// increment the start point to see lower records if any
+			first++;
+			if(first<=Index)
+			{
+				for (k = first; k < name_Array.length; k++) //its showing bottom most record in the list from kth position
+				{								
+					var str = "name" + temp2;
+					document.getElementById(str).value = name_Array[k];
+					str = "ssn" + temp2;
+					document.getElementById(str).value = ssn_Array[k];
+					str = "birth" + temp2;
+					document.getElementById(str).value = date_Array[k];
+					str = "xxxx" + temp2;
+					document.getElementById(str).value = currency_Array[k];
+					str = "random" + temp2;
+					document.getElementById(str).value = random_Array[k];
+					temp2++;
+				}
+			}
+			else
+			{
+				alert("Bottom most record is reached\n");
+				first--;//decrement the pointer to see upper records if any
+			}
+		}
+	}
+	else
+	{
+		alert("Scrolling strikes for records more than 5\n");
+		return false;
+	}
+}
+</script>

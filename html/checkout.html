@@ -1,0 +1,89 @@
+<html>
+<head>        
+	<link rel="stylesheet" type="text/css" href="./style.css">
+	<center>
+		<h1>
+			<a href = ./entrance.html><img src= "logo.jpg" height = "80" width = "1000""></a>
+		</h1>
+	</center> 
+<style type="text/css">
+#navbar ul { 
+        margin: 0; 
+        padding: 5px; 
+        list-style-type: none; 
+        text-align: center; 
+        background-color: #000; 
+        } 
+ 
+#navbar ul li {  
+        display: inline; 
+        } 
+ 
+#navbar ul li a { 
+        text-decoration: none; 
+        padding: .3em 4em; 
+        color: #fff; 
+        background-color: red; 
+        } 
+ 
+#navbar ul li a:hover { 
+        color: #000; 
+        background-color: #fff; 
+        }  
+</style> 
+</head> 
+<body>
+<font size="4" face="verdana" color="black">
+<div id="navbar"> 
+  <ul> 
+        <li><a href="./entrance.html">Home</a></li> 
+        <li><a href="./aboutus.html">About Us</a></li> 
+        <li><a href="./contactus.html">Contact Us</a></li> 
+        <li><a href="./dealofday">Deal of the day</a></li> 
+        <li><a href ="./logout.php">Logout</a></li> 
+  </ul>
+</p>  
+</div> 
+	<center>
+	<div id="register">
+	<fieldset style="width:30%"><legend>Checkout:</legend>
+		<form enctype="multipart/form-data" action = "checkout.php" method = "POST">
+			<table>
+				<tr>
+					<td>Name:</td>
+					<td><input type = "text" name = "name" id = "name" autofocus/></td>
+				</tr>
+				<tr>
+					<td>Email:</td>
+					<td><input type = "text" name = "email" id = "email"/></td>
+				</tr>
+				<tr>
+					<td>Date:</td>
+					<td><input type = "text" name = "date" id = "date" placeholder = "mm/yy"/></td>
+				</tr>
+				<tr>
+					<td>Card number</td>
+					<td><input type = "text" name = "cardnumber" id = "cardnumber" placeholder = "xxxx xxxx xxxx xxxx"/></td>
+				</tr>
+				<tr>
+					<td>CVV</td>
+					<td><input type = "text" name = "cvv" id = "cvv" placeholder = "xxx"/></td>
+				</tr>
+				<tr>
+					<td>Address:</td>
+					<td><input type = "text" name = "address" id = "address"/></td>
+				</tr>
+				<tr>
+					<td>Zipcode:</td>
+					<td><input type = "text" name = "zipcode" id = "zipcode"/></td>
+				</tr>
+				<tr>
+					<td><input type = "submit" name = "purchase" id = "purchase" value = "Purchase"/></td>
+				</tr>
+			</table>
+		</form>
+		</fieldset>
+		</div>
+		</center>
+	</body>
+</html>

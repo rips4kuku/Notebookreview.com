@@ -1,0 +1,41 @@
+#h1
+	{
+	font: Georgia, serif;
+	color: #996600;
+	}
+#button
+	{
+	border-radius:10px;
+	width:70px;
+	height:30px;
+	font-weight:bold;
+	font-size:15px
+	}
+#navbar ul { 
+        margin: 0; 
+        padding: 5px; 
+        list-style-type: none; 
+        text-align: center; 
+        background-color: #000; 
+        } 
+ 
+#navbar ul li {  
+        display: inline; 
+        } 
+ 
+#navbar ul li a { 
+        text-decoration: none; 
+        padding: .3em 4em; 
+        color: #fff; 
+        background-color: #000; 
+        } 
+ 
+#navbar ul li a:hover { 
+        color: #000; 
+        background-color: #fff; 
+        } 
+#p
+	{
+	font: Georgia, serif;
+	color: Black;
+	}
